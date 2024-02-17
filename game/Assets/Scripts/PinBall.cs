@@ -25,7 +25,7 @@ public class PinBall : MonoBehaviour
             if (rb != null)
             {
                 // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-                rb.velocity = reflectDirection * 150f;
+                rb.velocity = reflectDirection * Random.Range(80f, 150f);
                 Debug.DrawRay(collision.transform.position, reflectDirection * 10f, Color.gray, 5f);
             }
         }
