@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class PinBall : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp_Name;
-    [SerializeField] private float force = 100f;
+    [SerializeField] private float force = 50f;
 
     private Image _image;
     private Rigidbody2D _rigidbody;
@@ -31,9 +31,9 @@ public class PinBall : MonoBehaviour
     }
 
     public void DeadBall()
-    {
+    { 
         gameObject.SetActive(false);
-        GameManager.Instance.RemoveBall(this);
+       // GameManager.Instance.RemoveBall(this);
     }
     
     private Color SetColor()
@@ -66,13 +66,5 @@ public class PinBall : MonoBehaviour
                 Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
             }
         }
-    }
-    
-    private void Reflect(Vector3 currentPosition)
-    {
-        Vector3 reflectDirection = currentPosition - transform.position;
-        float result = reflectDirection.x > 0 ? 1.0f : -1.0f;
-
-        _rigidbody.AddForce(new Vector3(force * result, 50f, 0f));
     }
 }

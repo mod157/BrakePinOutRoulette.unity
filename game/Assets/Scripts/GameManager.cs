@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Nammu.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class GameManager : Singleton<GameManager>
@@ -10,6 +11,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Component")] 
     [SerializeField] private List<PinBall> pinBallsList;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private GridLayoutGroup gridLayout;
     
     [Space(15)]
     [Header("BaseObject")]
@@ -21,7 +23,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int blockLife = 1;
     [SerializeField] private int mapIndex = 0;
 
-    private bool _isStart = false;
+    private bool _isStart;
     private float _playTime;
     private Stopwatch _stopwatch;
     
@@ -46,6 +48,7 @@ public class GameManager : Singleton<GameManager>
     {
         _stopwatch.Start();
         _isStart = true;
+        gridLayout.enabled = false;
         
         foreach (var ball in pinBallsList)
         {
@@ -58,6 +61,7 @@ public class GameManager : Singleton<GameManager>
         float eventValuePlayTime = Mathf.Clamp(_stopwatch.ElapsedMilliseconds / 10f, 0, 3f);
         Debug.Assert(eventValuePlayTime < 3f);
 
+        gridLayout.enabled = true;
         _isStart = false;
 
         uiManager.UIReset();
@@ -66,6 +70,7 @@ public class GameManager : Singleton<GameManager>
 
     private void RespawnBall(int index, string name)
     {
+        Debug.Assert(_isStart == false);
         if (index >= pinBallsList.Count)
         {
             PinBall pinBall = Instantiate(ballObject, ballObjectdParentTransform).GetComponent<PinBall>();
@@ -79,7 +84,7 @@ public class GameManager : Singleton<GameManager>
 
     public void RemoveBall(PinBall removeBall)
     {
-        //pinBallsList.Remove(removeBall);
+        pinBallsList.Remove(removeBall);
     }
     
 

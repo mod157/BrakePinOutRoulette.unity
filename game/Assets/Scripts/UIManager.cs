@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField if_ballNames;
     [SerializeField] private Button btn_Start;
+    [SerializeField] private GridLayout gridLayout;
     
     //3FFF00
 
@@ -26,6 +27,10 @@ public class UIManager : MonoBehaviour
             DisableCanvasGroup();
             GameManager.Instance.GameStart();
         });
+        
+#if UNITY_EDITOR
+        if_ballNames.text = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15";
+#endif
     }
 
     void OnInputFieldValueChanged(string newValue)
