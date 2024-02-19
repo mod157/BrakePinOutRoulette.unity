@@ -7,10 +7,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField if_ballNames;
     [SerializeField] private Button btn_Start;
-    [SerializeField] private GridLayout gridLayout;
+    [SerializeField] private TextMeshProUGUI text_Title;
     
-    //3FFF00
-
     private CanvasGroup _cg;
 
     public Action<int, string> respawnBallAction;
@@ -49,6 +47,12 @@ public class UIManager : MonoBehaviour
     public void UIReset()
     {
         EnableCanvasGroup();
+    }
+
+    public void SetWinTitle(PinBall winBall)
+    {
+        text_Title.text = $"{winBall.Name} Win!";
+        text_Title.color = winBall.Color;
     }
 
     private void EnableCanvasGroup()

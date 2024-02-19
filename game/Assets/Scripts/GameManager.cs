@@ -58,12 +58,17 @@ public class GameManager : Singleton<GameManager>
 
     public void GameEnd()
     {
-        float eventValuePlayTime = Mathf.Clamp(_stopwatch.ElapsedMilliseconds / 10f, 0, 3f);
-        Debug.Assert(eventValuePlayTime < 3f);
+        Debug.Log(_stopwatch.ElapsedMilliseconds / 1000f);
 
         gridLayout.enabled = true;
         _isStart = false;
 
+        foreach (var ball in pinBallsList)
+        {
+            ball.gameObject.SetActive(true);
+            ball.DisableSimulated();
+        }
+        uiManager.SetWinTitle(pinBallsList[0]);
         uiManager.UIReset();
         _stopwatch.Stop();
     }
@@ -85,6 +90,10 @@ public class GameManager : Singleton<GameManager>
     public void RemoveBall(PinBall removeBall)
     {
         pinBallsList.Remove(removeBall);
+        if (pinBallsList.Count == 1)
+        {
+            GameEnd();
+        }
     }
     
 
