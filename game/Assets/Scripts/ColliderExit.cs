@@ -1,8 +1,8 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class ColliderReflect : MonoBehaviour
+public class ColliderExit : MonoBehaviour
 {
     private RectTransform _rect;
     private Collider2D _collider2D;
@@ -17,23 +17,13 @@ public class ColliderReflect : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Assert(collision != null);
-        // 충돌한 오브젝트의 반사각을 랜덤으로 설정
-        float reflectionAngle = Random.Range(-10f, 10f);
-
-        // 충돌한 오브젝트의 방향을 반사각만큼 회전
-        Vector2 reflectionDirection = Quaternion.Euler(0, 0, reflectionAngle) *  Vector2.Reflect(transform.position - collision.transform.position, collision.contacts[0].normal).normalized;
-        
-        // 충돌한 오브젝트의 Rigidbody2D를 가져옴
-        Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
-
-        if (rb != null)
+        if (collision.transform.CompareTag("Ball"))
         {
-            // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-            rb.velocity = reflectionDirection * 100f;
-            Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
+            PinBall enterObj = collision.transform.GetComponent<PinBall>();
+            enterObj.DeadBall();
         }
     }
-
+    
     private void ResizeCollider()
     {
         // RectTransform의 크기를 Collider2D에 적용

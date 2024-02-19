@@ -1,14 +1,51 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PinBall : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI tmp_Name;
     [SerializeField] private float force = 100f;
 
+    private Image _image;
     private Rigidbody2D _rigidbody;
-    
-    void Start()
+
+    private void Awake()
     {
+        _image = GetComponent<Image>();
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        Color color = SetColor();
+        _image.color = color;
+        tmp_Name.color = color;
+    }
+    
+    public void EnableSimulated()
+    {
+        _rigidbody.simulated = true;
+    }
+
+    public void DeadBall()
+    {
+        gameObject.SetActive(false);
+        GameManager.Instance.RemoveBall(this);
+    }
+    
+    private Color SetColor()
+    {
+        Color randomColor = new Color(Random.value, Random.value, Random.value); // 무작위 색상 생성
+        return randomColor; // 객체의 색상을 무작위 색상으로 설정
+    }
+
+    public void SetName(string name)
+    {
+        gameObject.name = $"Ball_{name}";
+        tmp_Name.text = name;
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
@@ -17,7 +54,7 @@ public class PinBall : MonoBehaviour
         if (collision.collider != null)
         {
             // 충돌한 오브젝트의 방향 벡터를 가져옴
-            Vector2 reflectDirection = Vector2.Reflect(transform.position - collision.transform.position, collision.contacts[0].normal).normalized;
+            Vector2 reflectionDirection = Vector2.Reflect(transform.position - collision.transform.position, collision.contacts[0].normal).normalized;
             
             // 충돌한 오브젝트의 Rigidbody2D를 가져옴
             Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
@@ -25,8 +62,8 @@ public class PinBall : MonoBehaviour
             if (rb != null)
             {
                 // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-                rb.velocity = reflectDirection * Random.Range(80f, 150f);
-                Debug.DrawRay(collision.transform.position, reflectDirection * 10f, Color.gray, 5f);
+                rb.velocity = reflectionDirection * Random.Range(force, force * 1.5f);
+                Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
             }
         }
     }
