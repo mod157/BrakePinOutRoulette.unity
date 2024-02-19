@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     private CanvasGroup _cg;
 
     public Action<int, string> respawnBallAction;
+    
+    //3EFF00
     private void Awake()
     {
         _cg = GetComponent<CanvasGroup>();
@@ -47,6 +49,7 @@ public class UIManager : MonoBehaviour
     public void UIReset()
     {
         EnableCanvasGroup();
+        OnInputFieldValueChanged(if_ballNames.text);
     }
 
     public void SetWinTitle(PinBall winBall)

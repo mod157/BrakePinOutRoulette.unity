@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Nammu.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,10 +66,10 @@ public class GameManager : Singleton<GameManager>
 
         foreach (var ball in pinBallsList)
         {
-            ball.gameObject.SetActive(true);
             ball.DisableSimulated();
         }
-        uiManager.SetWinTitle(pinBallsList[0]);
+        
+        uiManager.SetWinTitle(pinBallsList.Last());
         uiManager.UIReset();
         _stopwatch.Stop();
     }
@@ -89,8 +90,9 @@ public class GameManager : Singleton<GameManager>
 
     public void RemoveBall(PinBall removeBall)
     {
-        pinBallsList.Remove(removeBall);
-        if (pinBallsList.Count == 1)
+        int removeIndex = pinBallsList.IndexOf(removeBall);
+        
+        if (pinBallsList.Count(x => x.gameObject.activeSelf) == 1)
         {
             GameEnd();
         }

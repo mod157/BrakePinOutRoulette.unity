@@ -52,6 +52,8 @@ public class PinBall : MonoBehaviour
     {
         gameObject.name = $"Ball_{name}";
         tmp_Name.text = name;
+        
+        gameObject.SetActive(true);
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
