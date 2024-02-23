@@ -5,7 +5,6 @@ using System.Linq;
 using Nammu.Utils;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -27,6 +26,7 @@ public class GameManager : Singleton<GameManager>
     private bool _isStart;
     private float _playTime;
     private Stopwatch _stopwatch;
+    private MapManager _mapManager;
     
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnEnable()
     {
-        Debug.Assert(uiManager != null);
+        UnityEngine.Debug.Assert(uiManager != null);
         uiManager.respawnBallAction += RespawnBall;
     }
 
@@ -59,8 +59,6 @@ public class GameManager : Singleton<GameManager>
 
     public void GameEnd()
     {
-        Debug.Log(_stopwatch.ElapsedMilliseconds / 1000f);
-
         gridLayout.enabled = true;
         _isStart = false;
 
@@ -70,13 +68,16 @@ public class GameManager : Singleton<GameManager>
         }
         
         uiManager.SetWinTitle(pinBallsList.Last());
-        uiManager.UIReset();
+        
         _stopwatch.Stop();
+        
+        uiManager.UIReset();
+        MapManager.Instance.ResetBlock();
     }
 
     private void RespawnBall(int index, string name)
     {
-        Debug.Assert(_isStart == false);
+        UnityEngine.Debug.Assert(_isStart == false);
         if (index >= pinBallsList.Count)
         {
             PinBall pinBall = Instantiate(ballObject, ballObjectdParentTransform).GetComponent<PinBall>();
