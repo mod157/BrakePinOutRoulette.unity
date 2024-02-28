@@ -291,4 +291,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tmp_Name: {fileID: 565192862247374534}
-  force: 100
+  force: 10

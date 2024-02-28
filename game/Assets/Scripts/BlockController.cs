@@ -15,7 +15,7 @@ public class BlockController : MonoBehaviour
             if (rb != null)
             {
                 // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-                rb.velocity = reflectionDirection * 50f;
+                rb.velocity = reflectionDirection * 10f;
                 Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
             }
             gameObject.SetActive(false);

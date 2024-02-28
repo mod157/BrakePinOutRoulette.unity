@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class PinBall : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp_Name;
-    [SerializeField] private float force = 50f;
+    [SerializeField] private float force = 10f;
 
     private Image _image;
     private Rigidbody2D _rigidbody;
