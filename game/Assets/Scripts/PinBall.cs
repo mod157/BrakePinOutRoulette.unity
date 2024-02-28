@@ -7,11 +7,11 @@ using Random = UnityEngine.Random;
 public class PinBall : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp_Name;
-    [SerializeField] private float force = 10f;
 
     private Image _image;
     private Rigidbody2D _rigidbody;
     private Color _color;
+    private int _brokenBlockCount;
 
     private void Awake()
     {
@@ -69,7 +69,7 @@ public class PinBall : MonoBehaviour
         if (rb != null)
         {
             // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-            rb.velocity = reflectionDirection * Random.Range(force, force * 1.5f);
+            rb.velocity = reflectionDirection * Random.Range(GameOption.FORCE, GameOption.FORCE * 1.5f);
             Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
         }
     }
@@ -77,4 +77,12 @@ public class PinBall : MonoBehaviour
     public Color Color => _color;
 
     public string Name => tmp_Name.text;
+
+    public Rigidbody2D Rigidbody2D => _rigidbody;
+
+    public int BrokenCount
+    {
+        set => _brokenBlockCount = value;
+        get => _brokenBlockCount;
+    }
 }

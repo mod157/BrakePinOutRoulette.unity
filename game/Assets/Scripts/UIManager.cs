@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_InputField if_ballNames;
     [SerializeField] private Button btn_Start;
     [SerializeField] private TextMeshProUGUI text_Title;
+    [SerializeField] private Button btn_ModeLastWin;
+    [SerializeField] private Button btn_ModeBlockCountWin;
     
     private CanvasGroup _cg;
 
@@ -26,6 +28,22 @@ public class UIManager : MonoBehaviour
         {
             DisableCanvasGroup();
             GameManager.Instance.GameStart();
+        });
+        
+        btn_ModeLastWin.onClick.AddListener(() =>
+        {
+            btn_ModeBlockCountWin.image.color = Color.white;
+            btn_ModeLastWin.image.color = Color.green;
+
+            GameManager.Instance.GameMode = GameManager.GameModeOption.LastWin;
+        });
+        
+        btn_ModeBlockCountWin.onClick.AddListener(() =>
+        {
+            btn_ModeLastWin.image.color = Color.white;
+            btn_ModeBlockCountWin.image.color = Color.green;
+
+            GameManager.Instance.GameMode = GameManager.GameModeOption.BlockCountWin;
         });
         
 #if UNITY_EDITOR
@@ -51,13 +69,13 @@ public class UIManager : MonoBehaviour
         EnableCanvasGroup();
         OnInputFieldValueChanged(if_ballNames.text);
     }
+    
 
     public void SetWinTitle(PinBall winBall)
     {
         text_Title.text = $"{winBall.Name} Win!";
         text_Title.color = winBall.Color;
     }
-
     private void EnableCanvasGroup()
     {
         _cg.alpha = 1;

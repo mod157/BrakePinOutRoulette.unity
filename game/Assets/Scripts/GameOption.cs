@@ -4,11 +4,7 @@ using UnityEngine;
 
 public static class GameOption
 {
-    //MODE
-    public static readonly ushort MODE_LASTWIN = 1000;
-    public static readonly ushort MODE_BLOCKCOUNT = 2000;
-    
     //Reflection Force
-    public static readonly int force = 10;
+    public static readonly int FORCE = 10;
     
 }

@@ -177,7 +177,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1530,7 +1530,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1848,6 +1848,8 @@ MonoBehaviour:
   if_ballNames: {fileID: 632448550}
   btn_Start: {fileID: 2009495414}
   text_Title: {fileID: 1933747480}
+  btn_ModeLastWin: {fileID: 1064417138}
+  btn_ModeBlockCountWin: {fileID: 58934458}
 --- !u!225 &1262835697
 CanvasGroup:
   m_ObjectHideFlags: 0
