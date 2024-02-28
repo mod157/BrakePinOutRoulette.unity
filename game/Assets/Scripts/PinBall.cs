@@ -37,9 +37,12 @@ public class PinBall : MonoBehaviour
     }
 
     public void DeadBall()
-    { 
-        gameObject.SetActive(false);
-        GameManager.Instance.RemoveBall(this);
+    {
+        if (gameObject.activeSelf && GameManager.Instance.IsGameStart)
+        {
+            gameObject.SetActive(false);
+            GameManager.Instance.RemoveBall(this);
+        }
     }
     
     private Color SetColor()
@@ -58,19 +61,23 @@ public class PinBall : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 충돌한 오브젝트가 콜라이더를 가지고 있는지 확인
-        Debug.Assert(collision != null);
-        // 충돌한 오브젝트의 방향 벡터를 가져옴
-        Vector2 reflectionDirection = Vector2.Reflect(transform.position - collision.transform.position, collision.contacts[0].normal).normalized;
-        
-        // 충돌한 오브젝트의 Rigidbody2D를 가져옴
-        Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
-
-        if (rb != null)
+        if (collision.transform.CompareTag("Ball"))
         {
-            // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
-            rb.velocity = reflectionDirection * Random.Range(GameOption.FORCE, GameOption.FORCE * 1.5f);
-            Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
+            // 충돌한 오브젝트가 콜라이더를 가지고 있는지 확인
+            Debug.Assert(collision != null);
+            // 충돌한 오브젝트의 방향 벡터를 가져옴
+            Vector2 reflectionDirection = Vector2
+                .Reflect(transform.position - collision.transform.position, collision.contacts[0].normal).normalized;
+
+            // 충돌한 오브젝트의 Rigidbody2D를 가져옴
+            Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
+
+            if (rb != null)
+            {
+                // 오브젝트가 Rigidbody2D를 가지고 있다면 반사된 방향으로 힘을 가함
+                rb.velocity = reflectionDirection * Random.Range(GameOption.FORCE, GameOption.FORCE * 1.5f);
+                // Debug.DrawRay(collision.transform.position, reflectionDirection * 10f, Color.gray, 5f);
+            }
         }
     }
 

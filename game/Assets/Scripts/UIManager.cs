@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     
     private CanvasGroup _cg;
 
-    public Action<int, string> respawnBallAction;
+    public Action<string[]> respawnBallAction;
     
     //3EFF00
     private void Awake()
@@ -55,13 +55,9 @@ public class UIManager : MonoBehaviour
     {
         // ','를 기준으로 문자열 분할
         string[] dataStrings = newValue.Split(',');
-
-        // 분할된 데이터를 출력 또는 사용할 수 있습니다.
-        for(int i = 0 ; i < dataStrings.Length; i++)
-        {
-            Debug.Assert(respawnBallAction != null);
-            respawnBallAction.Invoke(i, dataStrings[i]);
-        }
+        Debug.Assert(respawnBallAction != null);
+        respawnBallAction.Invoke(dataStrings);
+        
     }
 
     public void UIReset()

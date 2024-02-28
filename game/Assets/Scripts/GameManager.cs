@@ -66,8 +66,44 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void RespawnBall(string[] names)
+    {
+        int i;
+        for (i = 0; i < names.Length; i++)
+        {
+            if (names.Length > pinBallsList.Count)
+            {
+                PinBall pinBall = Instantiate(ballObject, ballObjectdParentTransform).GetComponent<PinBall>();
+                pinBallsList.Add(pinBall);
+            }
+
+            pinBallsList[i].SetName(names[i]);
+            pinBallsList[i].gameObject.SetActive(true);
+        }
+        
+        for (int j = i; j < pinBallsList.Count; j++)
+        {
+            Debug.Log("Disable Ball - " + j + " / " + pinBallsList[j].gameObject.name);
+            pinBallsList[j].gameObject.SetActive(false);
+        }
+    }
+
+    public void RemoveBall(PinBall removeBall)
+    {
+        int removeIndex = pinBallsList.IndexOf(removeBall);
+        
+        Debug.Log($"[{removeIndex}]-{removeBall.name}");
+        _removeIndexList.Add(removeIndex);
+        
+        if (pinBallsList.Count(x => x.gameObject.activeSelf) == 1)
+        {
+            GameEnd();
+        }
+    }
+    
     public void GameEnd()
     {
+        Debug.Log("GameEnd");
         gridLayout.enabled = true;
         _isStart = false;
 
@@ -79,71 +115,43 @@ public class GameManager : Singleton<GameManager>
         }
         
         _stopwatch.Stop();
-        
+        _removeIndexList.Clear();
         uiManager.UIReset();
         MapManager.Instance.ResetBlock();
     }
 
     public void Winner()
     {
+        PinBall winnerBall = null;
         switch (_mode)
         {
             case GameModeOption.LastWin:
-                uiManager.SetWinTitle(pinBallsList.Last());
+                winnerBall = pinBallsList.Find(x => x.gameObject.activeSelf);
+                
                 break;
             case GameModeOption.BlockCountWin:
-                PinBall highCountPinBall = pinBallsList[0];
+                winnerBall = pinBallsList[0];
                 for (int i = 1; i < pinBallsList.Count; i++)
                 {
-                    if (pinBallsList[i].BrokenCount > highCountPinBall.BrokenCount)
+                    var pinball = pinBallsList[i];
+                    if (pinball.BrokenCount > winnerBall.BrokenCount)
                     {
-                        highCountPinBall = pinBallsList[i];
+                        winnerBall = pinball;
                     }
 
-                    if (pinBallsList[i].BrokenCount == highCountPinBall.BrokenCount)
+                    if (pinball.BrokenCount == winnerBall.BrokenCount)
                     {
-                        
+                        int highCountindex = pinBallsList.IndexOf(winnerBall);
+                        int currentindex = pinBallsList.IndexOf(pinball);
+
+                        if (_removeIndexList.IndexOf(currentindex) > _removeIndexList.IndexOf(highCountindex))
+                            winnerBall = pinball;
                     }
-                    
                 }
                 break;
         }
         
-    }
-
-    private void RespawnBall(int index, string name)
-    {
-        for (int i = pinBallsList.Count - 1; i > index; i--)
-        {
-            pinBallsList[i].gameObject.SetActive(false);
-        }
-        
-        if (index >= pinBallsList.Count)
-        {
-            PinBall pinBall = Instantiate(ballObject, ballObjectdParentTransform).GetComponent<PinBall>();
-            pinBall.SetName(name);
-            pinBallsList.Add(pinBall);
-            return;
-        }
-        
-        pinBallsList[index].SetName(name);
-        pinBallsList[index].gameObject.SetActive(true);
-    }
-
-    public void RemoveBall(PinBall removeBall)
-    {
-        int removeIndex = pinBallsList.IndexOf(removeBall);
-        
-        _removeIndexList.Add(removeIndex);
-
-        foreach (var index in _removeIndexList)
-        {
-            UnityEngine.Debug.Log("Remove Index : " + index);
-        }
-        if (pinBallsList.Count(x => x.gameObject.activeSelf) == 1)
-        {
-            GameEnd();
-        }
+        uiManager.SetWinTitle(winnerBall);
     }
     
 
