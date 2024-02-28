@@ -113,7 +113,11 @@ public class GameManager : Singleton<GameManager>
 
     private void RespawnBall(int index, string name)
     {
-        UnityEngine.Debug.Assert(_isStart == false);
+        for (int i = pinBallsList.Count - 1; i > index; i--)
+        {
+            pinBallsList[i].gameObject.SetActive(false);
+        }
+        
         if (index >= pinBallsList.Count)
         {
             PinBall pinBall = Instantiate(ballObject, ballObjectdParentTransform).GetComponent<PinBall>();
