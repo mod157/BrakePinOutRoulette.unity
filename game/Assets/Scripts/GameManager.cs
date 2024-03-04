@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Nammu.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -54,16 +56,20 @@ public class GameManager : Singleton<GameManager>
         uiManager.respawnBallAction -= RespawnBall;
     }
 
-    public void GameStart()
+    public async void GameStart()
     {
+        //ShuffleList(pinBallsList);
+        for (int i = 0; i < pinBallsList.Count; i++)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            pinBallsList[i].transform.SetSiblingIndex(randomIndex);
+            pinBallsList[i].EnableSimulated();
+        }
+        
+        await UniTask.DelayFrame(1);
         _stopwatch.Start();
         _isStart = true;
         gridLayout.enabled = false;
-        
-        foreach (var ball in pinBallsList)
-        {
-            ball.EnableSimulated();
-        }
     }
 
     private void RespawnBall(string[] names)
@@ -151,7 +157,34 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
         
+        Debug.Log("Winner - " + winnerBall.Name + " / " + winnerBall.BrokenCount);
         uiManager.SetWinTitle(winnerBall);
+    }
+
+    
+    /*private void BallShuffle()
+    {
+        //Fisher-Yates 알고리즘
+        for (int i = pinBallsList.Count - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            GameObject temp = pinBallsList[i];
+            pinBallsList[i] = pinBallsList[randomIndex];
+            pinBallsList[randomIndex] = temp;
+        }
+    }*/
+    
+    private void ShuffleList<T>(List<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = Random.Range(0, n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
     }
     
 
