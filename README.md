@@ -18,7 +18,6 @@ Table of Contents
 - [BrakePinOutRoulette for Unity](#brakepinoutroulette-for-unity)
   - [Table of Contents](#table-of-contents)
   - [History](#history)
-  - [Getting started](#getting-started)
   - [Download](#download)
   - [License](#license)
 
@@ -26,26 +25,6 @@ Table of Contents
 History
 ---
 v1.0.0 - Add Package
-
-Getting started
----
-asset package(`ipp.unity.*.*.*.unitypackage`) available in [ipp.unity/releases](https://github.com/mod157/ipp.unity/releases) page.
-![image](docs/image/inputPad_Inspector.png)
-| Title | Name | Context | 
-| --- | --- | --- |
-| Component | `InputColider` | 입력을 위한 충돌 판정 콜라이더 |
-|  | `InputLineRenderer` | 입력 버튼 및 드래그 상태에 따른 현재 포인터까지의 라인| 
-|  | `PadButtonList` | 동기적으로 생성된 PadButton List |
-| InputPad | `ButtonObject` | Base Button 오브젝트 |
-|  | `PadCount` | 생성할 행과 열 갯수 | 
-|  | `ScaleSlider` | 간 버튼 간격의 배율 |
-|  | `Radius` | 버튼 인식 범위 | 
-|  | `PadGrideLayoutGroup` | 버튼 Layout |
-|  | `InputTrigger` | 충돌 판정 이벤트 |
-| Option | `IsInputLine` | InputLineRenderer 활성/비활성 |
-|  | `IsPointer` | Pointer 표시 활성/비활성 | 
-|  | `IsPadButtonRadius` | 각 Button 범위 활성/비활성 |
-|  | `IsEditorDebug` | Debug 활성/비활성 | 
 
 Download
 ---
